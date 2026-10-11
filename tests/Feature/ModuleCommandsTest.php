@@ -53,6 +53,6 @@ class ModuleCommandsTest extends TestCase
             ->first(fn($route) => $route->getName() === 'api.v1.products');
 
         $this->assertNotNull($route);
-        $this->assertSame('v1/products', $route->uri());
+        $this->assertSame('api/v1/products', $route->uri());
     }
 }
