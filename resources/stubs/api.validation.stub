@@ -5,8 +5,8 @@ namespace App\Modules\{{ module }}\Validations;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class {{ validationName }} extends FormRequest
 {

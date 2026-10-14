@@ -4,6 +4,7 @@ namespace App\Modules\{{ module }}\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class {{ controllerName }} extends Controller
 {
@@ -13,6 +14,20 @@ class {{ controllerName }} extends Controller
     public function index()
     {
         //
+        return response()->json(
+            data: [
+                'meta' => [
+                    'code' => Response::HTTP_OK,
+                    'is_error' => false,
+                    'message' => 'OK',
+                ],
+                'data' => null,
+            ],
+            status: Response::HTTP_OK,
+            headers: [
+                'Content-Type' => 'application/json',
+            ]
+        );
     }
 
     /**

@@ -19,7 +19,7 @@ class DayRavelServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/dayravel.php', 'dayravel');
-        $this->mergeConfigFrom(__DIR__ . '/../config/view.php', 'view');
+        // $this->mergeConfigFrom(__DIR__ . '/../config/view.php', 'view');
         $this->mergeConfigFrom(__DIR__ . '/../config/cors.php', 'cors');
     }
 
@@ -27,7 +27,7 @@ class DayRavelServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../config/dayravel.php' => config_path('dayravel.php'),
-            __DIR__ . '/../config/view.php' => config_path('view.php'),
+            // __DIR__ . '/../config/view.php' => config_path('view.php'),
             __DIR__ . '/../config/cors.php' => config_path('cors.php'),
         ], 'dayravel-config');
 
@@ -46,6 +46,7 @@ class DayRavelServiceProvider extends ServiceProvider
         }
 
         $this->loadModuleRoutes();
+        $this->loadModuleViews();
     }
 
     private function loadModuleRoutes(): void
@@ -65,6 +66,17 @@ class DayRavelServiceProvider extends ServiceProvider
                     ->middleware($apiRoute['middleware'])
                     ->group($route);
             }
+        }
+    }
+
+    private function loadModuleViews(): void
+    {
+        $modulesPath = config('dayravel.modules_path', app_path('Modules'));
+
+        foreach (File::glob($modulesPath . '/*/views') as $viewsPath) {
+            $moduleName = basename(dirname($viewsPath));
+
+            $this->loadViewsFrom($viewsPath, $moduleName);
         }
     }
 }
