@@ -53,15 +53,18 @@ class DayRavelServiceProvider extends ServiceProvider
         $modulesPath = config('dayravel.modules_path', app_path('Modules'));
 
         foreach (File::glob($modulesPath . '/*/Routes/web.php') as $route) {
-            $this->app['router']->middleware(config('dayravel.web.middleware'))
+            $this->app['router']->middleware(config('dayravel.routes.web.middleware'))
                 ->group($route);
         }
 
-        foreach (File::glob($modulesPath . '/*/Routes/api.php') as $route) {
-            $this->app['router']->prefix(config('dayravel.api.prefix'))
-                ->as(config('dayravel.api.name'))
-                ->middleware(config('dayravel.api.middleware'))
-                ->group($route);
+        $apiRoutes = config('dayravel.routes.api');
+        foreach ($apiRoutes as $apiRoute) {
+            foreach (File::glob($modulesPath . "/*/Routes/{$apiRoute['filename']}.php") as $route) {
+                $this->app['router']->prefix("api/{$apiRoute['version']}")
+                    ->as("api.{$apiRoute['version']}.")
+                    ->middleware($apiRoute['middleware'])
+                    ->group($route);
+            }
         }
     }
 }
