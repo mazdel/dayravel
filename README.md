@@ -74,16 +74,21 @@ return [
     // The base directory in which modules are created and discovered.
     'modules_path' => app_path('Modules'),
 
-    // Settings applied to every module Routes/web.php file.
-    'web' => [
-        'middleware' => ['web'],
-    ],
+    'routes' => [
 
-    // Settings applied to every module Routes/api.php file.
-    'api' => [
-        'prefix' => 'api/v1',
-        'name' => 'api.v1.',
-        'middleware' => ['api'],
+        // Settings applied to every module Routes/web.php file.
+        'web' => [
+            'middleware' => ['web'],
+        ],
+
+        // Settings applied to every module Routes/api.php file.
+        'api' => [
+            [
+                'version' => 'v1',
+                'filename' => 'api',
+                'middleware' => ['api'],
+            ],
+        ],
     ],
 ];
 ```
